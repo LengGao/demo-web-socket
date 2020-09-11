@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>WS协议 通信</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font: 13px Helvetica, Arial; }
+    form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+    form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+    form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+    #messages { list-style-type: none; margin: 0; padding: 0; }
+    #messages li { padding: 5px 10px; }
+    #messages li:nth-child(odd) { background: #eee; }
+    #messages { margin-bottom: 40px }
+  </style>
+      <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
+  <!-- <script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"> -->
+  </script>
+</head>
+<body>
+  <form id='form'>
+    <input type="text" id='input' name='input' value=""/>
+    <button type="button" onclick="send()">send</button>
+  </form> 
+  <script>
+    var ws = new WebSocket('ws://localhost:3000');
+    var form = document.getElementById('form');
+    var input = document.getElementsByName('input');
+    function send (e) {
+      console.log(input)
+      ws.send(input[0].value);
+    }
+    ws.addEventListener('open',function() {
+      console.log('已连接')
+    })
+    ws.addEventListener('message',function (params) {
+      document.body.append(`<div>${new Date()}:${params.data}</div>`)
+      console.log("正在接受",params);
+    })
+  </script>
+
+</body>
+</html>   
